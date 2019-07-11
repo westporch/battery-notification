@@ -1,12 +1,5 @@
 #!/usr/bin/python3
-
 # 작성: Westporch(westporch@debianusers.or.kr)
-
-'''
-의존성 패키지
-$ sudo apt install python3-distutils libnotify-bin libnotify-dev vorbis-tools
-($ pip install pgi, vext, vext.gi)
-'''
 
 import subprocess
 import gi
@@ -51,16 +44,6 @@ def play_sound():
     else:
         os.system('/usr/bin/ogg123 --device pulse --quiet /opt/battery-notification/battery-low.ogg')
 
-'''
-def draw_battery(occupied_space):
-	battery_charge_full_size = int(occupied_space / 10) 
-	charged_space = battery_charge_full_size * '■ '
-	uncharged_space = (10 - battery_charge_full_size) * '□ '
-	draw_battery = charged_space + uncharged_space
-	
-	return draw_battery		#  예) ■ ■ ■ ■ ■ ■ ■ ■ □ □
-'''
-
 
 def draw_battery(occupied_space):
 	occupied_space = int(occupied_space / 10) 
@@ -97,9 +80,9 @@ def battery_full():
 
 
 def main():
-    if REMAINING_BAT_PERCENT <= 20 and BAT_STATUS == "Discharging":
+    if REMAINING_BAT_PERCENT <= WARNING_BAT_PERCENT and BAT_STATUS == "Discharging":
         warn_battery_low()
-    elif REMAINING_BAT_PERCENT <= 10 and BAT_STATUS == "Discharging":
+    elif REMAINING_BAT_PERCENT <= ALERTING_BAT_PERCENT and BAT_STATUS == "Discharging":
         alert_battery_low()
     elif REMAINING_BAT_PERCENT == get_battery_max_charge_percent():
         battery_full()
