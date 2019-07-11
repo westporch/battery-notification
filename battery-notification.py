@@ -51,7 +51,7 @@ def play_sound():
     else:
         os.system('/usr/bin/ogg123 --device pulse --quiet /opt/battery-notification/battery-low.ogg')
 
-
+'''
 def draw_battery(occupied_space):
 	battery_charge_full_size = int(occupied_space / 10) 
 	charged_space = battery_charge_full_size * '■ '
@@ -59,11 +59,21 @@ def draw_battery(occupied_space):
 	draw_battery = charged_space + uncharged_space
 	
 	return draw_battery		#  예) ■ ■ ■ ■ ■ ■ ■ ■ □ □
+'''
+
+
+def draw_battery(occupied_space):
+	occupied_space = int(occupied_space / 10) 
+	charged_space = occupied_space * '■ '
+	uncharged_space = (10 - occupied_space) * '□ '
+	draw_battery = charged_space + uncharged_space
+	
+	return draw_battery		#  예) ■ ■ ■ ■ ■ ■ ■ ■ □ □
 
 
 def warn_battery_low():
     Notify.init("배터리의 전원이 부족합니다.")
-    notification = Notify.Notification.new("배터리의 전원이 부족합니다.", "배터리를 충전해 주십시오.\n %s(%s%%)"%(draw_battery(get_battery_max_charge_percent()), REMAINING_BAT_PERCENT))
+    notification = Notify.Notification.new("배터리의 전원이 부족합니다.", "배터리를 충전해 주십시오.\n %s(%s%%)"%(draw_battery(REMAINING_BAT_PERCENT), REMAINING_BAT_PERCENT))
     notification.set_urgency(2) # URGENCY_CRITICAL
     notification.set_timeout(15000)
     notification.show()
@@ -72,7 +82,7 @@ def warn_battery_low():
 
 def alert_battery_low():
     Notify.init("배터리의 전원이 매우 부족합니다.")
-    notification = Notify.Notification.new("배터리의 전원이 매우 부족합니다.", "전원이 매우 부족하여 잠시 후 절전모드로 전환합니다.\n %s(%s%%)"%(draw_battery(get_battery_max_charge_percent()), REMAINING_BAT_PERCENT))
+    notification = Notify.Notification.new("배터리의 전원이 매우 부족합니다.", "전원이 매우 부족하여 잠시 후 절전모드로 전환합니다.\n %s(%s%%)"%(draw_battery(REMAINING_BAT_PERCENT), REMAINING_BAT_PERCENT))
     play_sound()
     time.sleep(10)
     os.system('systemctl suspend')   
