@@ -1,0 +1,5 @@
+# /etc/cron.d/battery-notification
+# 마지막 줄에는 공백 라인이 있어야 합니다.(참고: https://unix.stackexchange.com/a/433028)
+
+* * * * * westporch (sleep 10 ; XDG_RUNTIME_DIR=/run/user/$(id -u) $(echo $HOME)/git/battery-notification/battery-notification.py)
+
